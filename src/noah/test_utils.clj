@@ -28,10 +28,16 @@
                     ((juxt (memfn key) (memfn value)) record))
                   (output-topic-seq output-topic))))
 
+(defprotocol BackToTheFuture (advance-time [this ms])) ;; 1.21 gigawatts = 1,620,000 horsepower, use caution
+
+
 (deftype MockTopic [driver topic k-ser v-ser test-input-topic]
   clojure.lang.IFn
   (invoke [this k v]
-    (.pipeInput test-input-topic k v)))
+    (.pipeInput test-input-topic k v))
+  BackToTheFuture
+  (advance-time [this ms]
+    (.advanceTime test-input-topic (Duration/ofMillis ms))))
 
 (defn advance-wall-clock-time
   [ms]
