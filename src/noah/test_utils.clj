@@ -25,7 +25,7 @@
 (defn output-topic-seq
   [output-topic]
   (lazy-seq (cons (when-let [record (.readKeyValue output-topic)]
-                    ((juxt (memfn key) (memfn value)) record))
+                    ((juxt #(.-key %) #(.-value %)) record))
                   (output-topic-seq output-topic))))
 
 (defprotocol BackToTheFuture (advance-time [this ms])) ;; 1.21 gigawatts = 1,620,000 horsepower, use caution
