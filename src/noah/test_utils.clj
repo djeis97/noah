@@ -18,7 +18,7 @@
 
 (defn create-output-topic
   [topic k-serde v-serde]
-  (.createOutputTopic topic
+  (.createOutputTopic *driver* topic
                       (.deserializer (serdes k-serde))
                       (.deserializer (serdes v-serde))))
 
